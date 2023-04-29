@@ -1,0 +1,27 @@
+.users {
+  background-color: $bg-card;
+  @include centre-flex;
+  @include round-corners;
+  margin: 50px;
+  margin-top: 20px;
+  padding-bottom: 20px;
+
+  &__each {
+  padding: 20px;
+
+    .text-item{
+      @include text-flex
+    }
+
+    p {
+      padding-left: 7px;
+      padding-right: 7px;
+    }
+
+  }
+
+  a {
+    @include button
+  }
+
+}
