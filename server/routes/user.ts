@@ -1,18 +1,7 @@
 import express from 'express'
 import * as db from '../db/db'
-import { getStarsigns } from '../db/db'
 
 const router = express.Router()
-
-router.get('/', (req, res) => {
-  getStarsigns()
-    .then((signs) => {
-      res.json(signs)
-    })
-    .catch((err) => {
-      res.status(500).send(err.message)
-    })
-})
 
 router.get('/', (req, res) => {
   db.getUsers()
