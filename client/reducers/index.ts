@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux'
 
-// import stuff from './stuff'
+import starsigns from './starsigns'
+import user from './user'
 
 export default combineReducers({
-  // stuff
+  starsigns,
+  user,
 })
