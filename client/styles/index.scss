@@ -3,23 +3,23 @@
 @import './users.scss';
 @import './add.scss';
 
+
 body {
+  overflow-x: hidden;
+  width: 100vw;
   background: $bg-main;
   color: $text-color;
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 20px;
   font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 header {
+  overflow: hidden;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  width: 100vw;
 
   h1 {
     padding: 20px;
