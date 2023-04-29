@@ -89,9 +89,7 @@ function Charts() {
           <div className="users">
             {chartList.map((user) => (
               <div className="users__each" key={user.id}>
-                <div className="name-heading">
-                  <Link to="/details">{user.name}</Link>
-                </div>
+                <h3 className="name">{user.name}</h3>
                 <div className="text-item">
                   <h3>Sun: </h3>
                   <p>{user.sun}</p>
