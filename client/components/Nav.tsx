@@ -5,7 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 function Nav() {
   const { pathname } = useLocation()
 
-  const { user, logout, loginWithRedirect } = useAuth0()
+  const { logout, loginWithRedirect } = useAuth0()
 
   const handleSignOut = () => {
     return logout()

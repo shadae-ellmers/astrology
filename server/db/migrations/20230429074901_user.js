@@ -5,6 +5,7 @@ exports.up = function (knex) {
     table.string('sun')
     table.string('moon')
     table.string('rising')
+    table.string('added_by_user')
   })
 }
 

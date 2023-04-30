@@ -11,6 +11,7 @@ export interface UserData {
   sun: string
   moon: string
   rising: string
+  added_by_user: string
 }
 
 export interface User extends UserData {

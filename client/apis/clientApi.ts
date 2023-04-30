@@ -15,7 +15,6 @@ export function addAUser(user: Models.UserData, token: string) {
     .set('Authorization', `Bearer ${token}`)
     .send(user)
     .then((res) => res.body)
-    .catch((err) => console.log('api', err.message))
 }
 
 export function deleteAUser(id: number, token: string) {

@@ -1,6 +1,7 @@
 import express from 'express'
 import * as db from '../db/db'
 import checkJwt, { JwtRequest } from '../auth0'
+import { User } from '../../common/models'
 
 const router = express.Router()
 
@@ -16,16 +17,42 @@ router.get('/', (req, res) => {
 
 router.post('/', checkJwt, (req: JwtRequest, res) => {
   const user = req.body
-  db.addUser(user)
+  const auth0Id = req.auth?.sub
+
+  if (!auth0Id) {
+    return res.status(401).send('Unauthorized')
+  }
+
+  const newChart: User = {
+    id: user.id,
+    name: user.name,
+    sun: user.sun,
+    moon: user.moon,
+    rising: user.rising,
+    added_by_user: auth0Id,
+  }
+
+  db.addUser(newChart)
     .then((newUser) => {
       res.json(newUser[0])
     })
-    .catch((err) => console.log(err.essage))
+    .catch((err: Error) => {
+      console.error(err)
+      res.status(500).send(err.message)
+    })
 })
 
 router.delete('/delete/:id/', checkJwt, (req: JwtRequest, res) => {
   const user = Number(req.params.id)
-  db.deleteUser(user)
+  const auth0Id = req.auth?.sub
+
+  if (!auth0Id) {
+    console.error('No auth0Id')
+    return res.status(401).send('Unauthorized')
+  }
+
+  db.userCanDelete(user, auth0Id)
+    .then(() => db.deleteUser(user))
     .then((dltdUser) => {
       res.json(dltdUser)
     })
@@ -35,7 +62,16 @@ router.delete('/delete/:id/', checkJwt, (req: JwtRequest, res) => {
 })
 
 router.patch('/update/', checkJwt, (req: JwtRequest, res) => {
-  db.updateUser(req.body)
+  const user = req.body
+  const auth0Id = req.auth?.sub
+
+  if (!auth0Id) {
+    console.error('No auth0Id')
+    return res.status(401).send('Unauthorized')
+  }
+
+  db.userCanEdit(user, auth0Id)
+    .then(() => db.updateUser(user))
     .then((user) => {
       res.json(user)
     })

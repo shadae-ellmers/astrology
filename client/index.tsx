@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
       domain="shadae-ellmers.au.auth0.com"
       clientId="QeBIW8rJqHFXzyOfGk7dsKNVQW2yfNGC"
       authorizationParams={{
-        redirectUri: window.location.origin,
+        redirect_uri: window.location.origin,
         audience: 'https://astrology/api',
         scope: 'read:current_user update:current_user_metadata',
       }}
