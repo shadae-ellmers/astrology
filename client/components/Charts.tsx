@@ -7,6 +7,7 @@ import {
   getUsersThunk,
   updOneUserThunk,
 } from '../actions/astrology'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function Charts() {
   const dispatch = useAppDispatch()
@@ -18,8 +19,15 @@ function Charts() {
     rising: '',
   } as Models.User)
 
-  const deleteHandler = (id: number) => {
-    dispatch(delOneUserThunk(id))
+  const { getAccessTokenSilently } = useAuth0()
+
+  const deleteHandler = async (id: number) => {
+    try {
+      const token = await getAccessTokenSilently()
+      dispatch(delOneUserThunk(id, token))
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const updateButtonHandler = (user: Models.User) => {
@@ -34,10 +42,15 @@ function Charts() {
     })
   }
 
-  const submitHandler = (evt: FormEvent) => {
+  const submitHandler = async (evt: FormEvent) => {
     evt.preventDefault()
-    dispatch(updOneUserThunk(editData))
-    setEditForm(!editForm)
+    try {
+      const token = await getAccessTokenSilently()
+      dispatch(updOneUserThunk(editData, token))
+      setEditForm(!editForm)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   useEffect(() => {

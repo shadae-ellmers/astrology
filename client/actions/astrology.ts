@@ -85,9 +85,12 @@ export function getUsersThunk(): ThunkAction {
   }
 }
 
-export function addOneUserThunk(newUser: Models.UserData): ThunkAction {
+export function addOneUserThunk(
+  newUser: Models.UserData,
+  token: string
+): ThunkAction {
   return async (dispatch) => {
-    addAUser(newUser)
+    addAUser(newUser, token)
       .then((user) => {
         dispatch(addOneUser(user))
       })
@@ -95,9 +98,9 @@ export function addOneUserThunk(newUser: Models.UserData): ThunkAction {
   }
 }
 
-export function delOneUserThunk(id: number): ThunkAction {
+export function delOneUserThunk(id: number, token: string): ThunkAction {
   return async (dispatch) => {
-    deleteAUser(id)
+    deleteAUser(id, token)
       .then(() => {
         dispatch(delOneUser(id))
       })
@@ -105,9 +108,9 @@ export function delOneUserThunk(id: number): ThunkAction {
   }
 }
 
-export function updOneUserThunk(user: Models.User): ThunkAction {
+export function updOneUserThunk(user: Models.User, token: string): ThunkAction {
   return async (dispatch) => {
-    updateAUser(user)
+    updateAUser(user, token)
       .then(() => {
         dispatch(updOneUser(user))
       })

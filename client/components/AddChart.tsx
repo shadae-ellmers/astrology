@@ -3,11 +3,14 @@ import { UserData } from '../../common/models'
 import { useAppDispatch } from '../hooks/redux'
 import { addOneUserThunk } from '../actions/astrology'
 import { useNavigate } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function AddChart() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [user, setUser] = useState({} as UserData)
+
+  const { getAccessTokenSilently } = useAuth0()
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setUser({
@@ -16,10 +19,15 @@ function AddChart() {
     })
   }
 
-  const submitHandler = (evt: FormEvent) => {
+  const submitHandler = async (evt: FormEvent) => {
     evt.preventDefault()
-    dispatch(addOneUserThunk(user))
-    navigate('/chart')
+    try {
+      const token = await getAccessTokenSilently()
+      dispatch(addOneUserThunk(user, token))
+      navigate('/chart')
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (

@@ -1,5 +1,6 @@
 import express from 'express'
 import * as db from '../db/db'
+import checkJwt, { JwtRequest } from '../auth0'
 
 const router = express.Router()
 
@@ -13,7 +14,7 @@ router.get('/', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
+router.post('/', checkJwt, (req: JwtRequest, res) => {
   const user = req.body
   db.addUser(user)
     .then((newUser) => {
@@ -22,7 +23,7 @@ router.post('/', (req, res) => {
     .catch((err) => console.log(err.essage))
 })
 
-router.delete('/delete/:id/', (req, res) => {
+router.delete('/delete/:id/', checkJwt, (req: JwtRequest, res) => {
   const user = Number(req.params.id)
   db.deleteUser(user)
     .then((dltdUser) => {
@@ -33,7 +34,7 @@ router.delete('/delete/:id/', (req, res) => {
     })
 })
 
-router.patch('/update/', (req, res) => {
+router.patch('/update/', checkJwt, (req: JwtRequest, res) => {
   db.updateUser(req.body)
     .then((user) => {
       res.json(user)
